@@ -1,0 +1,205 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class SmartHashMapPOC {
+
+	// --- WORKFLOW NODE STRUCTURES ---
+
+	// Node layout when the bucket behaves as a standard Linked List
+	static class ListNode {
+		String key;
+		String value;
+		ListNode next; // Points to the next colliding node
+
+		ListNode(String key, String value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
+
+	// Node layout when the bucket upgrades to a Binary Search Tree (BST)
+	static class TreeNode {
+		String key;
+		String value;
+		TreeNode left, right; // Left branch for smaller keys, Right for larger keys
+
+		TreeNode(String key, String value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
+
+	// A unified container wrapping either a List or a Tree inside a single array
+	// slot
+	static class Bucket {
+		String type = "EMPTY"; // Tracks state transitions: EMPTY -> LIST -> TREE
+		ListNode head = null; // Active only when type is "LIST"
+		TreeNode root = null; // Active only when type is "TREE"
+		int size = 0; // Total key-value elements inside this specific bucket
+	}
+
+	private final Bucket[] table;
+	private final int capacity;
+	private final int treeifyThreshold;
+
+	public SmartHashMapPOC(int capacity, int treeifyThreshold) {
+		this.capacity = capacity;
+		this.treeifyThreshold = treeifyThreshold;
+		this.table = new Bucket[capacity];
+		for (int i = 0; i < capacity; i++) {
+			table[i] = new Bucket(); // Initialize empty buckets
+		}
+	}
+
+	// --- STEP 1: HASH DISTRIBUTION ---
+	// Standard map step: Convert a key into an array index using modulo math.
+	private int hash(String key) {
+		return Math.abs(key.hashCode()) % capacity;
+	}
+
+	// --- STEP 4 (A): TREE INSERTION PIPELINE ---
+	// Navigates the sorted tree to insert or update values in O(log N) time
+	private TreeNode insertIntoTree(TreeNode root, String key, String value) {
+		if (root == null) {
+			return new TreeNode(key, value); // Found an empty leaf spot; attach new node
+		}
+
+		int comparison = key.compareTo(root.key);
+		if (comparison == 0) {
+			root.value = value; // Key already exists in the tree; overwrite its value
+		} else if (comparison < 0) {
+			// New key is smaller than current node; route down the left branch
+			root.left = insertIntoTree(root.left, key, value);
+		} else {
+			// New key is larger than current node; route down the right branch
+			root.right = insertIntoTree(root.right, key, value);
+		}
+		return root;
+	}
+
+	// --- STEP 3 (B): TRANSFORMATION PIPELINE (TREEIFY) ---
+	// Takes the linear linked nodes and converts them sequentially into a tree
+	// structure
+	private TreeNode treeify(ListNode head) {
+		TreeNode root = null;
+		ListNode current = head;
+		while (current != null) {
+			// Pull data from list node and re-route it through tree logic
+			root = insertIntoTree(root, current.key, current.value);
+			current = current.next;
+		}
+		return root;
+	}
+
+	// --- MAIN EXECUTION WORKFLOW ---
+	public void put(String key, String value) {
+		// [FLOW] Step 1: Calculate which bucket this key belongs to
+		int index = hash(key);
+		Bucket bucket = table[index];
+
+		// [FLOW] Step 2: Route by current structural state
+
+		// CASE A: The bucket is empty. Direct O(1) allocation.
+		if (bucket.type.equals("EMPTY")) {
+			bucket.head = new ListNode(key, value);
+			bucket.type = "LIST"; // Transition bucket state to List
+			bucket.size = 1;
+			return;
+		}
+
+		// CASE B: Collision detected! The bucket is currently a Linked List.
+		if (bucket.type.equals("LIST")) {
+			ListNode current = bucket.head;
+			ListNode prev = null;
+
+			// [FLOW] Step 3 (A): Linear traversal to see if the key already exists
+			while (current != null) {
+				if (current.key.equals(key)) {
+					current.value = value; // Found match; update value and terminate
+					return;
+				}
+				prev = current;
+				current = current.next;
+			}
+
+			// Key is entirely new. Append it to the tail of the list.
+			prev.next = new ListNode(key, value);
+			bucket.size++;
+
+			// [FLOW] Step 3 (B): Threshold Check
+			// Check if the total sequential collisions hit or cross the optimization
+			// threshold
+			if (bucket.size >= treeifyThreshold) {
+				System.out.println("⚠️ Threshold Reached! Bucket " + index + " converting from LIST to TREE (Size: "
+						+ bucket.size + ")");
+
+				// Trigger structural conversion
+				bucket.root = treeify(bucket.head);
+
+				// Detach references to the old list so Garbage Collection can clean them up
+				bucket.head = null;
+
+				// Complete the transition state to Tree
+				bucket.type = "TREE";
+			}
+		}
+		// CASE C: Optimized state. The bucket was previously upgraded to a Tree.
+		else if (bucket.type.equals("TREE")) {
+			// [FLOW] Step 4: Drop directly into tree insertion rather than scanning list
+			// links
+			bucket.root = insertIntoTree(bucket.root, key, value);
+		}
+	}
+
+	// Helper to extract values in sorted sequence out of the tree structure
+	// (In-order traversal)
+	private void inorderTraversal(TreeNode root, List<String> result) {
+		if (root != null) {
+			inorderTraversal(root.left, result);
+			result.add("[" + root.key + ": " + root.value + "]");
+			inorderTraversal(root.right, result);
+		}
+	}
+
+	// Prints out the internal map slots to visually monitor structure variations
+	public void display() {
+		for (int i = 0; i < capacity; i++) {
+			Bucket bucket = table[i];
+			System.out.print("Bucket " + i + " (" + bucket.type + ", Size: " + bucket.size + "): ");
+
+			if (bucket.type.equals("EMPTY")) {
+				System.out.println("None");
+			} else if (bucket.type.equals("LIST")) {
+				ListNode curr = bucket.head;
+				List<String> listNodes = new ArrayList<>();
+				while (curr != null) {
+					listNodes.add("[" + curr.key + ": " + curr.value + "]");
+					curr = curr.next;
+				}
+				System.out.println(String.join(" -> ", listNodes));
+			} else if (bucket.type.equals("TREE")) {
+				List<String> treeNodes = new ArrayList<>();
+				inorderTraversal(bucket.root, treeNodes);
+				System.out.println("(Sorted Tree) " + String.join(" -> ", treeNodes));
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		// Constructing a map with a capacity of 2 slots and a low treeify threshold of
+		// 3
+		SmartHashMapPOC map = new SmartHashMapPOC(2, 3);
+
+		// These keys are generated to purposely target the identical index to force
+		// collisions
+		map.put("Key1", "Value1");
+		map.put("Key2", "Value2");
+
+		System.out.println("--- State 1: 2 Elements Added (Stored sequentially as Linked List) ---");
+		map.display();
+
+		System.out.println("\n--- State 2: Adding 3rd Element (Forces Treeify Routine) ---");
+		map.put("Key3", "Value3");
+		map.display();
+	}
+}
