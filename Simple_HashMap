@@ -1,0 +1,108 @@
+public class SimpleHashMap {
+
+	// Custom node that can act as BOTH a List Node and a Tree Node
+	static class Node {
+		String key, value;
+		Node next; // Used when it's a Linked List
+		Node left, right; // Used when it's a Tree
+
+		Node(String key, String value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
+
+	private Node[] buckets = new Node[2]; // Tiny capacity to force collisions
+	private boolean[] isTree = new boolean[2]; // Tracks if a bucket has been optimized to a tree
+	private int[] bucketSizes = new int[2]; // Tracks item count per bucket
+	private final int THRESHOLD = 3; // Turn into tree on the 3rd collision
+
+	// Simple hash to guarantee collisions for keys starting with the same letters
+	private int getIndex(String key) 
+	{
+		return Math.abs(key.hashCode()) % buckets.length;
+	}
+
+	public void put(String key, String value) {
+		int index = getIndex(key);
+		bucketSizes[index]++;
+
+		// Check if we need to convert this bucket to a tree structure
+		if (!isTree[index] && bucketSizes[index] == THRESHOLD) {
+			System.out.println("⚠️ Bucket " + index + " hit threshold (" + THRESHOLD + "). Treeifying...");
+			isTree[index] = true;
+
+			// Collect all existing list items
+			List<Node> oldNodes = new ArrayList<>();
+			for (Node curr = buckets[index]; curr != null; curr = curr.next) {
+				oldNodes.add(curr);
+			}
+
+			// Rebuild the bucket as a clean Binary Tree
+			buckets[index] = null;
+			for (Node node : oldNodes) {
+				node.next = null; // Break list links
+				buckets[index] = insertIntoTree(buckets[index], node);
+			}
+		}
+
+		// Insert the new item based on current bucket state
+		Node newNode = new Node(key, value);
+		if (isTree[index]) {
+			buckets[index] = insertIntoTree(buckets[index], newNode);
+		} else {
+			// Standard Linked List prepend (Fastest way to add to a list: O(1))
+			newNode.next = buckets[index];
+			buckets[index] = newNode;
+		}
+	}
+
+	// Standard Binary Search Tree insertion logic
+	private Node insertIntoTree(Node root, Node newNode) {
+		if (root == null)
+			return newNode;
+
+		if (newNode.key.compareTo(root.key) < 0) {
+			root.left = insertIntoTree(root.left, newNode);
+		} else {
+			root.right = insertIntoTree(root.right, newNode);
+		}
+		return root;
+	}
+
+	public void printMap() {
+		for (int i = 0; i < buckets.length; i++) {
+			System.out.print("Bucket " + i + " [" + (isTree[i] ? "TREE" : "LIST") + "]: ");
+			if (isTree[i]) {
+				printTreeNodes(buckets[i]);
+			} else {
+				for (Node curr = buckets[i]; curr != null; curr = curr.next) {
+					System.out.print("(" + curr.key + " -> " + curr.value + ") ");
+				}
+			}
+			System.out.println();
+		}
+	}
+
+	private void printTreeNodes(Node root) {
+		if (root == null)
+			return;
+		printTreeNodes(root.left);
+		System.out.print("(" + root.key + " -> " + root.value + ") ");
+		printTreeNodes(root.right);
+	}
+
+	public static void main(String[] args) {
+		SimpleHashMap map = new SimpleHashMap();
+
+		// Forcing keys into the same bucket index
+		map.put("Apple", "Red");
+		map.put("Apricot", "Orange");
+
+		System.out.println("--- State 1: 2 items inside Linked List ---");
+		map.printMap();
+
+		System.out.println("\n--- State 2: 3rd item triggers the conversion ---");
+		map.put("Avocado", "Green");
+		map.printMap();
+	}
