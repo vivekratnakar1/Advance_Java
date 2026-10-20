@@ -1,1 +1,2 @@
-Collection_HashMap= Java code with step-by-step working flow comments
+ava uses the Collection Framework because standard 
+arrays are too rigid and inefficient for managing dynamic data. 
