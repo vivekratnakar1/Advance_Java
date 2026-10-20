@@ -1,0 +1,32 @@
+
+
+AI Mode conversation: type of arrraylist
+
+
+type of arrraylist
+
+An ArrayList is a resizable, dynamic-array implementation of the List interface in Java (part of the java.util package). Instead of having "types" of ArrayLists themselves, an ArrayList can be declared to hold different types of elements using Java Generics.
+
+Types of Elements an ArrayList Can Hold
+
+1. Object Reference Types (Generic ArrayList): You can specify standard Java classes or custom objects inside angle brackets <>.java
+ArrayList<String> stringList = new ArrayList<>(); // Stores Strings
+ArrayList<MyCustomClass> customList = new ArrayList<>(); // Stores custom objects
+Use code with caution.
+2. Wrapper Classes (For Primitives): An ArrayList cannot store primitive data types directly (like int, double, or char). You must use their corresponding object wrapper classes.
+
+Primitive Type	Required Wrapper Class for ArrayList	Example Syntax
+int	Integer	ArrayList<Integer> list = new ArrayList<>();
+double	Double	ArrayList<Double> list = new ArrayList<>();
+char	Character	ArrayList<Character> list = new ArrayList<>();
+boolean	Boolean	ArrayList<Boolean> list = new ArrayList<>();
+
+3. Raw/Untyped ArrayList (Not Recommended): If you do not specify a type, it defaults to storing Object types, allowing it to hold a mix of any data types. This is discouraged as it lacks compile-time type safety.java
+ArrayList rawList = new ArrayList(); // Can hold Strings, Integers, etc. together
+Use code with caution.
+
+Core Characteristics
+
+• Dynamic Sizing: Automatically grows and shrinks in capacity as elements are added or removed.
+• Ordered & Duplicates Allowed: Maintains the exact insertion order of elements and permits duplicate values.
+• Not Thread-Safe: If multiple threads access it concurrently, it must be synchronized externally using Collections.synchronizedList()
