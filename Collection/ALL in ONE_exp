@@ -1,0 +1,59 @@
+
+import java.util.*;
+
+public class CollectionHierarchyPOC {
+
+    public static void main(String[] args) {
+
+        // 1. LIST: duplicates are allowed
+        List<String> products = new ArrayList<>();
+
+        products.add("Laptop");
+        products.add("Mouse");
+        products.add("Laptop");
+
+        System.out.println("List: " + products);
+        System.out.println("First product: " + products.get(0));
+
+        // 2. SET: duplicate elements are not retained
+        Set<String> emails = new LinkedHashSet<>();
+
+        emails.add("a@gmail.com");
+        emails.add("b@gmail.com");
+        emails.add("a@gmail.com");
+
+        System.out.println("Set: " + emails);
+
+        // 3. QUEUE: process elements in FIFO order
+        Queue<String> tasks = new ArrayDeque<>();
+
+        tasks.offer("Order-101");
+        tasks.offer("Order-102");
+        tasks.offer("Order-103");
+
+        System.out.println("Queue head: " + tasks.peek());
+        System.out.println("Processed: " + tasks.poll());
+        System.out.println("Remaining: " + tasks);
+
+        // 4. MAP: key-value pairs
+        Map<Integer, String> employees = new HashMap<>();
+
+        employees.put(101, "Rahul");
+        employees.put(102, "Amit");
+        employees.put(101, "Vivek");
+
+        System.out.println("Employee 101: " + employees.get(101));
+        System.out.println("Employees: " + employees);
+    }
+}
+
+o/p
+======================================
+List: [Laptop, Mouse, Laptop]
+First product: Laptop
+Set: [a@gmail.com, b@gmail.com]
+Queue head: Order-101
+Processed: Order-101
+Remaining: [Order-102, Order-103]
+Employee 101: Vivek
+Employees: {101=Vivek, 102=Amit}
