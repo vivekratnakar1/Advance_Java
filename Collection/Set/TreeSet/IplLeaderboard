@@ -1,0 +1,52 @@
+> You're building an IPL scorecard                                 (HashSet → no duplicates, elements are always in sorted (natural or custom) order , 
+    > Batsmen are added to the leaderboard in random order          (Backed by a Red-Black tree → all operations are O(log n))
+        > but the display should be always sorted by runs.
+
+import java.util.TreeSet;
+
+public class IplLeaderboard {
+    public static void main(String[] args) {
+        // TreeSet<Integer> keeps the runs automatically sorted
+        TreeSet<Integer> topScores = new TreeSet<>();
+
+        // Batsmen score these runs in the tournament (insertion order is messy)
+        topScores.add(87);
+        topScores.add(42);
+        topScores.add(103);
+        topScores.add(42);    // duplicate — silently ignored
+        topScores.add(65);
+        topScores.add(99);
+        topScores.add(103);   // duplicate — silently ignored
+
+        System.out.println("All scores (auto-sorted): " + topScores);
+
+        // Rank them — highest first
+        System.out.println("\nTop 3 run-scorers (high to low):");
+        int rank = 1;
+        for (int score : topScores.descendingSet()) {
+            if (rank > 3) break;
+            System.out.println("  " + rank++ + ". " + score + " runs");
+        }
+
+        // Quick queries TreeSet is great at
+        System.out.println("\nLowest score:  " + topScores.first());
+        System.out.println("Highest score: " + topScores.last());
+    }
+}
+
+
+o/p-------------------------------
+All scores (auto-sorted): [42, 65, 87, 99, 103]
+
+Top 3 run-scorers (high to low):
+  1. 103 runs
+  2. 99 runs
+  3. 87 runs
+
+Lowest score:  42
+Highest score: 103
+
+----------------------------------------
+
+// Why TreeSet? A HashSet would give random order, a LinkedHashSet would give insertion order. 
+// Only TreeSet guarantees sorted order — perfect for a leaderboard. And first() / last() / descendingSet() are built in for free.
