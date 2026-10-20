@@ -1,0 +1,48 @@
+> Railway Reservation — Sorted PNR List
+  > The station master wants to see the list of confirmed PNR numbers sorted numerically
+    > for audit — regardless of the order in which tickets were booked.
+
+import java.util.TreeSet;
+
+public class PnrRegistry {
+    public static void main(String[] args) {
+        // PNRs come in from different booking counters at different times
+        TreeSet<Long> confirmedPnrs = new TreeSet<>();
+
+        confirmedPnrs.add(4823456789L);
+        confirmedPnrs.add(1245678901L);
+        confirmedPnrs.add(9012345678L);
+        confirmedPnrs.add(4823456789L);   // duplicate — ignored
+        confirmedPnrs.add(3344556677L);
+        confirmedPnrs.add(1245678901L);   // duplicate — ignored
+
+        System.out.println("Confirmed PNRs (numerically sorted):");
+        confirmedPnrs.forEach(pnr -> System.out.println("  " + pnr));
+
+        System.out.println("\nTotal unique PNRs: " + confirmedPnrs.size());
+        System.out.println("First PNR:  " + confirmedPnrs.first());
+        System.out.println("Last PNR:   " + confirmedPnrs.last());
+
+        // All PNRs in a range (useful for auditing counters per shift)
+        System.out.println("\nPNRs between 3000000000 and 8000000000:");
+        System.out.println("  " + confirmedPnrs.subSet(3000000000L, 8000000000L));
+    }
+}
+
+o/p------------------------------
+Confirmed PNRs (numerically sorted):
+  1245678901
+  3344556677
+  4823456789
+  9012345678
+
+Total unique PNRs: 4
+First PNR:  1245678901
+Last PNR:   9012345678
+
+PNRs between 3000000000 and 8000000000:
+  [3344556677, 4823456789]
+
+----------------------------------------
+// Why TreeSet? The subSet() method (and headSet(), tailSet()) gives you range queries for free 
+//— an audit tool's dream. Neither HashSet nor LinkedList can do this in O(log n).
