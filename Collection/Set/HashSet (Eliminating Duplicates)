@@ -1,0 +1,21 @@
+> Why use it: Unlike an ArrayList, a HashSet does not allow duplicate values.
+  > If you try to add "Laptop" twice, it will silently ignore the duplicate. It also does not maintain the order of items.
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class SetDemo {
+    public static void main(String[] args)
+    {
+        // Initialize a collection that guarantees absolute uniqueness
+        Set<String> uniqueProducts = new HashSet<>();
+
+        uniqueProducts.add("Laptop");
+        uniqueProducts.add("Mouse");
+        uniqueProducts.add("Laptop"); // Duplicate entry: item will be skipped automatically
+
+        // Output: Only prints [Mouse, Laptop] (Order might change, duplicates are gone)
+        System.out.println("Unique Catalog Items: " + uniqueProducts);
+    }
+}
+
