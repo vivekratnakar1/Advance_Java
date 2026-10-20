@@ -1,0 +1,32 @@
+> Counting Unique Words in Bollywood Song Lyrics
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class UniqueWordCounter {
+    public static void main(String[] args) {
+        String lyrics = "Dil hai hindustani, dil hai hindustani. " +
+                        "Mera dil hai hindustani, oh mera dil hai hindustani.";
+
+        String[] words = lyrics.toLowerCase()
+                               .replaceAll("[^a-z\\s]", "")
+                               .trim()
+                               .split("\\s+");
+
+        Set<String> distinctWords = new HashSet<>();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                distinctWords.add(word);
+            }
+        }
+
+        System.out.println("Total words:    " + words.length);
+        System.out.println("Unique words:   " + distinctWords.size());
+        System.out.println("Distinct terms: " + distinctWords);
+    }
+}
+
+o/p -----------------------------------------
+Total words:    14
+Unique words:   6
+Distinct terms: [dil, mera, hai, oh, hindustani]
