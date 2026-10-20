@@ -1,0 +1,38 @@
+> Unique IPL Teams in Order of Appearance in a Match Schedule
+  > You're building a cricket app and want to show each IPL team once, but in the order they first played — not alphabetical, not random.
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class IplTeamsTracker {
+    public static void main(String[] args) {
+        // Match schedule across the season (teams repeat many times)
+        String[] matches = {
+                "MI vs CSK",
+                "RCB vs KKR",
+                "CSK vs RCB",
+                "MI vs KKR",
+                "SRH vs DC",
+                "CSK vs MI",
+                "RCB vs SRH"
+        };
+
+        // LinkedHashSet → removes duplicates AND keeps first-seen order
+        Set<String> teamsInOrder = new LinkedHashSet<>();
+
+        for (String match : matches) {
+            String[] pair = match.split(" vs ");
+            teamsInOrder.add(pair[0]);   // duplicate adds silently ignored
+            teamsInOrder.add(pair[1]);
+        }
+
+        System.out.println("Matches played: " + matches.length);
+        System.out.println("Unique teams:   " + teamsInOrder.size());
+        System.out.println("Teams in order of first appearance: " + teamsInOrder);
+    }
+}
+
+o/p -----------------
+Matches played: 7
+Unique teams:   6
+Teams in order of first appearance: [MI, CSK, RCB, KKR, SRH, DC]
