@@ -1,0 +1,56 @@
+>>A fintech app logs user IPs. For security auditing
+    > he team wants the unique IPs of the day, sorted lexicographically 
+      > so firewall rules can be generated in range order.
+
+import java.util.TreeSet;
+
+public class UniqueIpAudit {
+    public static void main(String[] args) {
+        // Incoming traffic — IPs repeat constantly
+        String[] traffic = {
+                "192.168.1.45",
+                "10.0.0.7",
+                "172.16.5.100",
+                "192.168.1.45",     // duplicate
+                "10.0.0.7",         // duplicate
+                "203.0.113.25",
+                "172.16.5.100",     // duplicate
+                "198.51.100.9"
+        };
+
+        // TreeSet sorts lexicographically (fine for IPv4 logging)
+        TreeSet<String> uniqueIps = new TreeSet<>();
+
+        for (String ip : traffic) {
+            uniqueIps.add(ip);
+        }
+
+        System.out.println("Unique IPs today (sorted):");
+        for (String ip : uniqueIps) {
+            System.out.println("  " + ip);
+        }
+
+        System.out.println("\nTotal unique IPs: " + uniqueIps.size());
+        System.out.println("Lowest IP (first to block):  " + uniqueIps.first());
+        System.out.println("Highest IP (last to block):  " + uniqueIps.last());
+    }
+}
+=======================================================================================================
+o/p
+Unique IPs today (sorted):
+  10.0.0.7
+  172.16.5.100
+  192.168.1.45
+  198.51.100.9
+  203.0.113.25
+
+Total unique IPs: 5
+Lowest IP (first to block):  10.0.0.7
+Highest IP (last to block):  203.0.113.25
+
+=======================================================================================================
+
+Why TreeSet? Firewall rules are often applied in sorted order. 
+Having the set already sorted means you can iterate straight to the rules engine. 
+Bonus: first() / last() tell the admin instantly which ranges are involved.
+
