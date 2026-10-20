@@ -1,0 +1,22 @@
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProductManager {
+    public static void main(String[] args) {
+        // Initialize an ordered collection that allows duplicate entries
+        List<String> products = new ArrayList<>();
+
+        // Populate the collection with sample inventory data
+        products.add("Laptop");
+        products.add("Mouse");
+        products.add("Laptop"); // Duplicate value intentionally added to test collection behavior
+
+        // Output the entire collection structure to the console
+        System.out.println("Current Inventory: " + products);
+        
+        // Retrieve and log the first item using its zero-based index
+        System.out.println("First item in inventory: " + products.get(0));
+    }
+}
