@@ -25,3 +25,8 @@ public class CommonInterests {
         System.out.println("Shared:  " + sharedInterests);
     }
 }
+
+o/p -----------------------------------------------------
+Ananya:  [Bharatanatyam, Cricket, Cooking]
+Karthik: [Trekking, Carnatic Music, Cricket, Cooking]
+Shared:  [Cricket, Cooking]
