@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+
+public class ArrayListExample {
+    public static void main(String[] args) {
+        
+        // 1. Object Reference Type (Generic ArrayList for Strings)
+        ArrayList<String> names = new ArrayList<>();
+        names.add("Alice");
+        names.add("Bob");
+        System.out.println("1. String List: " + names);
+
+        // 2. Wrapper Class Type (For Primitives like int using Integer)
+        ArrayList<Integer> numbers = new ArrayList<>();
+        numbers.add(10);
+        numbers.add(20);
+        System.out.println("2. Integer List: " + numbers);
+
+        // 3. Raw / Untyped ArrayList (Can mix different data types - Not Recommended)
+        ArrayList rawList = new ArrayList();
+        rawList.add("Charlie"); // Adds a String
+        rawList.add(100);       // Adds an Integer
+        rawList.add(5.5);       // Adds a Double
+        System.out.println("3. Raw List (Mixed): " + rawList);
+    }
+}
+
+Output: Result : Print --
+
+1. String List: [Alice, Bob]
+2. Integer List: [10, 20]
+3. Raw List (Mixed): [Charlie, 100, 5.5]
