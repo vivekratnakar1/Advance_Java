@@ -1,5 +1,5 @@
-TreeSet in Java — 4 Real-Life Examples (Indian Context) with Runnable Code + Outputs
-TreeSet is the sorted set in Java:
+Why ? ==================================================================================================
+
 
 Like HashSet → no duplicates
 
@@ -8,3 +8,5 @@ Like a sorted data structure → elements are always in sorted (natural or custo
 Backed by a Red-Black tree → all operations are O(log n)
 
 ✅ TreeSet is the only one in this series where the output is always sorted — no matter what order you insert elements in.
+
+=======================================================================================================
