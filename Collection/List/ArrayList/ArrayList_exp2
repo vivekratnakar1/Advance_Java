@@ -1,0 +1,42 @@
+import java.util.ArrayList;
+
+public class ArrayListNewExamples {
+    public static void main(String[] args) {
+        
+        // 1. Object Reference Type (Using a Custom Object/Class)
+        // Storing a list of custom "Book" objects
+        ArrayList<Book> library = new ArrayList<>();
+        library.add(new Book("The Hobbit"));
+        library.add(new Book("1984"));
+        System.out.println("1. Custom Object List: " + library);
+
+        // 2. Wrapper Class Type (Using Double for decimal numbers)
+        // Storing primitive double values using the Double wrapper
+        ArrayList<Double> prices = new ArrayList<>();
+        prices.add(19.99);
+        prices.add(5.49);
+        System.out.println("2. Decimal Numbers List: " + prices);
+
+        // 3. Raw / Untyped ArrayList (Mixing custom objects, booleans, and characters)
+        // Combining totally unrelated types in one list
+        ArrayList mixedBag = new ArrayList();
+        mixedBag.add(new Book("Dracula")); // Custom Object
+        mixedBag.add(true);                // Boolean
+        mixedBag.add('A');                 // Character
+        System.out.println("3. New Raw List (Mixed): " + mixedBag);
+    }
+}
+
+// Simple supporting class for the first example
+class Book {
+    String title;
+    Book(String title) { this.title = title; }
+    @Override
+    public String toString() { return "Book: " + title; }
+}
+
+
+Output:
+1. Custom Object List: [Book: The Hobbit, Book: 1984]
+2. Decimal Numbers List: [19.99, 5.49]
+3. New Raw List (Mixed): [Book: Dracula, true, A]
