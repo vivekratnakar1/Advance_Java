@@ -1,0 +1,27 @@
+> Finding Common Interests Between Two Friends
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class CommonInterests {
+    public static void main(String[] args) {
+        Set<String> ananyaInterests = new HashSet<>();
+        ananyaInterests.add("Bharatanatyam");
+        ananyaInterests.add("Cooking");
+        ananyaInterests.add("Cricket");
+        ananyaInterests.add("Cooking");   // duplicate — ignored
+
+        Set<String> karthikInterests = new HashSet<>();
+        karthikInterests.add("Carnatic Music");
+        karthikInterests.add("Cricket");
+        karthikInterests.add("Cooking");
+        karthikInterests.add("Trekking");
+
+        Set<String> sharedInterests = new HashSet<>(ananyaInterests);
+        sharedInterests.retainAll(karthikInterests);
+
+        System.out.println("Ananya:  " + ananyaInterests);
+        System.out.println("Karthik: " + karthikInterests);
+        System.out.println("Shared:  " + sharedInterests);
+    }
+}
