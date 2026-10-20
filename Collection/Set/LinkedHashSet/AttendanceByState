@@ -1,0 +1,58 @@
+> State-wise Attendance Sheet for a Pan-India Training Program
+  > HR wants an attendance sheet of employees from different states
+    > no duplicate states but in order of first check-in.
+        > Useful for generating a "states present" certificate or headcount summary.
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class AttendanceByState {
+    public static void main(String[] args) {
+        // Employees check in one by one
+        String[] checkins = {
+                "Priya — Maharashtra",
+                "Arjun — Karnataka",
+                "Rahul — Maharashtra",      // Maharashtra repeated
+                "Sneha — Tamil Nadu",
+                "Kiran — Karnataka",        // Karnataka repeated
+                "Aditya — Delhi",
+                "Meera — Kerala"
+        };
+
+        // LinkedHashSet of states → no duplicates, first-seen order preserved
+        Set<String> statesPresent = new LinkedHashSet<>();
+        int employeeCount = 0;
+
+        for (String checkin : checkins) {
+            String state = checkin.split(" — ")[1];
+            statesPresent.add(state);
+            employeeCount++;
+        }
+
+        System.out.println("Total employees checked in: " + employeeCount);
+        System.out.println("Distinct states represented: " + statesPresent.size());
+        System.out.println("\nStates in order of first check-in:");
+
+        int idx = 1;
+        for (String state : statesPresent) {
+            System.out.println("  " + idx++ + ". " + state);
+        }
+    }
+}
+
+o/p-----------------------------------
+
+Total employees checked in: 7
+Distinct states represented: 5
+
+States in order of first check-in:
+  1. Maharashtra
+  2. Karnataka
+  3. Tamil Nadu
+  4. Delhi
+  5. Kerala
+
+----------------------------------
+
+// Why LinkedHashSet? This is a classic dedup-with-order scenario.
+// If HR later prints a certificate listing states, the order should match the flow of the event — not some random hash order.
