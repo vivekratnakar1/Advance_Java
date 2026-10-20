@@ -1,0 +1,42 @@
+> OTP Verification — Remembering Distinct OTPs Used Today
+    > An Indian bank wants to ensure a customer doesn't reuse an OTP.
+      > It also needs to show the audit trail of OTPs in the order they were generated for compliance.
+
+ import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class OtpAuditTrail {
+    public static void main(String[] args) {
+        // LinkedHashSet keeps generation order AND blocks duplicate OTPs
+        Set<String> otpHistory = new LinkedHashSet<>();
+
+        String[] generatedOtps = {
+                "482913", "770524", "482913",   // duplicate!
+                "135790", "770524",             // duplicate!
+                "908172"
+        };
+
+        for (String otp : generatedOtps) {
+            boolean added = otpHistory.add(otp);
+            if (!added) {
+                System.out.println("Rejected duplicate OTP: " + otp + " → regenerating...");
+            }
+        }
+
+        System.out.println("\nFinal OTP audit trail (in generation order):");
+        int idx = 1;
+        for (String otp : otpHistory) {
+            System.out.println("  " + idx++ + ". " + otp);
+        }
+    }
+}
+
+o/p
+Rejected duplicate OTP: 482913 → regenerating...
+Rejected duplicate OTP: 770524 → regenerating...
+
+Final OTP audit trail (in generation order):
+  1. 482913
+  2. 770524
+  3. 135790
+  4. 908172
