@@ -1,0 +1,13 @@
+PriorityQueue is a heap-based queue:
+
+Elements are not stored or retrieved in insertion order
+
+The element with the highest priority (by natural order or a custom Comparator) is always at the head
+
+add() and poll() are O(log n); peek() is O(1)
+
+Duplicates are allowed (unlike Sets)
+
+Backed by a binary heap (min-heap by default)
+
+⚠️ Important: Iterating a PriorityQueue with a for-each loop does NOT give sorted order — it gives heap-array order. To get sorted output, you must poll() repeatedly
