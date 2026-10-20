@@ -1,0 +1,15 @@
+Interview ke liye hierarchy ke important points
+Interface / Class	Key point
+Iterable	Enhanced for loop support
+Collection	List, Set, Queue ka parent interface
+List	Ordered, duplicates allowed
+Set	Unique elements
+Queue	Processing elements
+Deque	Dono ends se insertion/removal
+ArrayList	Dynamic array
+LinkedList	List aur Deque implement karta hai
+HashSet	Hash-based unique elements
+TreeSet	Sorted unique elements
+HashMap	Hash-based key-value storage
+Comparable / Comparator	Object sorting ke liye
+Yaad rakho: Vector ek legacy synchronized list hai aur Stack, Vector ko extend karta hai. Modern code mein stack operations ke liye aksar ArrayDeque prefer kiya jata hai.
