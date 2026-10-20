@@ -1,0 +1,50 @@
+> Default Min-Heap (Natural Ordering)
+  > Smallest element first. Works with any Comparable type (Integer, String, LocalDate, etc.).
+    1* PriorityQueue<Integer> pq = new PriorityQueue<>();
+          pq.add(30); pq.add(10); pq.add(20);
+          // pq.poll() → 10, then 20, then 30
+
+     2* Max-Heap (Reverse Ordering)
+          Largest element first. Built using Collections.reverseOrder().
+          
+          
+     Type 2: Max-Heap (Reverse Ordering)     
+          PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+          pq.add(30); pq.add(10); pq.add(20);
+          // pq.poll() → 30, then 20, then 10
+          Type 3: Custom Comparator PriorityQueue
+          You define the priority rule yourself — e.g. by marks descending, by age ascending, by urgency.
+          
+     Type 3: Custom Comparator PriorityQueue 
+          PriorityQueue<Student> pq = new PriorityQueue<>(
+              (a, b) -> Integer.compare(b.marks, a.marks)   // higher marks = higher priority
+          );
+          Type 4: PriorityQueue from an Existing Collection (Heapify)
+          Build a heap instantly from a List or any Collection — O(n) heapify instead of n × O(log n) inserts.
+          
+  Type 4: PriorityQueue from an Existing Collection (Heapify)
+          List<Integer> list = Arrays.asList(50, 20, 40, 10, 30);
+          PriorityQueue<Integer> pq = new PriorityQueue<>(list);
+          Type 5: PriorityQueue with Initial Capacity
+          Pre-size the internal array to avoid resizing — a micro-optimization for known workloads.
+          
+    Type 5: PriorityQueue with Initial Capacity     
+          PriorityQueue<Integer> pq = new PriorityQueue<>(100);       // capacity 100
+          PriorityQueue<Integer> pq = new PriorityQueue<>(100, Collections.reverseOrder()); // both
+          Type 6: Thread-Safe Variant — PriorityBlockingQueue
+          PriorityQueue is not thread-safe. For concurrent use, wrap or switch to PriorityBlockingQueue.
+          
+    
+Type 6: Thread-Safe Variant — PriorityBlockingQueue     
+          BlockingQueue<Task> pq = new PriorityBlockingQueue<>();
+          Type 7: PriorityQueue of Non-Comparable Objects
+          Requires either a Comparator in the constructor or the class must implement Comparable.
+ Type 7: PriorityQueue of Non-Comparable Objects        
+          class Task implements Comparable<Task> {
+              int priority;
+              public int compareTo(Task other) {
+                  return Integer.compare(this.priority, other.priority);
+              }
+          }
+          PriorityQueue<Task> pq = new PriorityQueue<>();   // uses compareTo()
+
