@@ -1,6 +1,6 @@
-                                          Iterable (Interface)
+                                          Iterable (Interface)   //Iterable is the parent interface of Collection.
 
-                                        Collection (Interface)                                            Map (Separate Interface)
+                                        Collection (Interface)                      Map (Separate Interface)
 
                 List                    Set                            Queue
                ArrayList            HashSet                        PriorityQueue                     HashMap                  LinkedHashMap
