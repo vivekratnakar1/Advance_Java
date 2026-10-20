@@ -1,0 +1,10 @@
+LinkedHashSet is the best of both worlds:
+
+Like HashSet → no duplicates
+
+Like LinkedList → maintains insertion order
+
+So when you need uniqueness + predictable order, LinkedHashSet is the right pick.
+
+✅ Unlike HashSet (order varies) and LinkedList (allows duplicates), LinkedHashSet gives deterministic output every single run.
+
