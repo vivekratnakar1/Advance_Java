@@ -1,0 +1,43 @@
+> Recent Search History on Flipkart (Unique + Chronological)
+  > A shopping app shows "recently searched" terms
+    > Each term must appear only once, but the order of most recent searches must be preserved.
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class RecentSearches {
+    public static void main(String[] args) {
+        // LinkedHashSet ensures no duplicates while preserving search order
+        Set<String> recentSearches = new LinkedHashSet<>();
+
+        // User searches these in this order
+        recentSearches.add("iphone 15");
+        recentSearches.add("samsung galaxy");
+        recentSearches.add("iphone 15");         // duplicate — ignored
+        recentSearches.add("boat earphones");
+        recentSearches.add("samsung galaxy");    // duplicate — ignored
+        recentSearches.add("oneplus nord");
+
+        System.out.println("Recent Searches (most recent last):");
+        for (String term : recentSearches) {
+            System.out.println("  • " + term);
+        }
+
+        System.out.println("\nTotal unique searches: " + recentSearches.size());
+    }
+}
+
+O/P-----------------------------------
+Recent Searches (most recent last):
+  • iphone 15
+  • samsung galaxy
+  • boat earphones
+  • oneplus nord
+-----------------------------------
+
+Total unique searches: 4
+
+
+//Why LinkedHashSet? A plain HashSet would destroy the chronological feel — the app would appear broken.
+// A List would allow duplicates. LinkedHashSet is the only one that gets both requirements right.
+
