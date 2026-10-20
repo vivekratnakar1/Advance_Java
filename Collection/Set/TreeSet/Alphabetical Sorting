@@ -1,0 +1,19 @@
+> Why use it: It automatically sorts your items in ascending/alphabetical order
+  > the exact moment you add them, and like a standard Set, it also bans duplicates.
+
+import java.util.Set;
+import java.util.TreeSet;
+
+public class TreeSetDemo {
+    public static void main(String[] args) {
+        // Automatically keeps elements sorted alphabetically as they are added
+        Set<String> sortedProducts = new TreeSet<>();
+
+        sortedProducts.add("Mouse");
+        sortedProducts.add("Laptop");
+        sortedProducts.add("Keyboard");
+
+        // Output: [Keyboard, Laptop, Mouse] (Automatically alphabetized)
+        System.out.println("Sorted Inventory List: " + sortedProducts);
+    }
+}
