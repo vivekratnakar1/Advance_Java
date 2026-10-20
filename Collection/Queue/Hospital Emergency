@@ -1,0 +1,51 @@
+> Hospital Emergency Room — Patient Triage (Min-Heap)
+    >. In an Indian government hospital ER, patients are not treated on a first-come-first-served basis
+      > the most critical cases (lowest severity number = highest priority) get seen first.
+
+import java.util.PriorityQueue;
+
+class Patient {
+    String name;
+    int severity;   // 1 = critical, 10 = minor
+
+    Patient(String name, int severity) {
+        this.name = name;
+        this.severity = severity;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (severity " + severity + ")";
+    }
+}
+
+public class EmergencyRoom {
+    public static void main(String[] args) {
+        // Min-heap: lower severity number = higher priority (critical first)
+        PriorityQueue<Patient> erQueue =
+                new PriorityQueue<>((a, b) -> Integer.compare(a.severity, b.severity));
+
+        erQueue.add(new Patient("Ramesh",  3));
+        erQueue.add(new Patient("Sunita",  8));
+        erQueue.add(new Patient("Vikram",  1));   // heart attack — critical
+        erQueue.add(new Patient("Pooja",   5));
+        erQueue.add(new Patient("Arun",    2));   // severe accident
+
+        System.out.println("Patients seen in priority order:");
+        int count = 1;
+        while (!erQueue.isEmpty()) {
+            System.out.println("  " + count++ + ". " + erQueue.poll());
+        }
+    }
+}
+
+Patients seen in priority order:
+  1. Vikram (severity 1)
+  2. Arun (severity 2)
+  3. Ramesh (severity 3)
+  4. Pooja (severity 5)
+  5. Sunita (severity 8)
+
+
+Why PriorityQueue? In an ER, the most critical patient must be seen first regardless of arrival time.
+A LinkedList (FIFO) would treat Sunita before Vikram — fatal. PriorityQueue with a custom comparator solves this in O(log n) per case.
