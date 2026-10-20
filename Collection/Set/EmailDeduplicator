@@ -1,0 +1,37 @@
+
+  > A very common use case — you have a messy list of emails (maybe from a sign-up form) and you want to clean it up.
+    > Why HashSet here? One line (new HashSet<>(rawEmails)) does the dedup work that would otherwise take a nested loop or a stream().distinct().
+
+# Removing Duplicates from a List of Emails
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class EmailDeduplicator
+{
+    public static void main(String[] args) {
+        // Pretend this came from a college fest registration form
+        List<String> rawEmails = new ArrayList<>();
+        rawEmails.add("arjun.sharma@example.com");
+        rawEmails.add("priya.patel@example.com");
+        rawEmails.add("arjun.sharma@example.com");   // duplicate
+        rawEmails.add("rahul.verma@example.com");
+        rawEmails.add("priya.patel@example.com");    // duplicate
+        rawEmails.add("sneha.iyer@example.com");
+
+        // The trick: pass the list straight into a HashSet constructor.
+        // HashSet will silently drop the duplicates for us.
+        Set<String> uniqueEmails = new HashSet<>(rawEmails);
+
+        System.out.println("Raw list size:     " + rawEmails.size());
+        System.out.println("Unique list size:  " + uniqueEmails.size());
+        System.out.println("Unique emails: " + uniqueEmails);
+    }
+}
+
+OutPut :
+Raw list size:     6
+Unique list size:  4
+Unique emails: [rahul.verma@example.com, sneha.iyer@example.com, arjun.sharma@example.com, priya.patel@example.com]
