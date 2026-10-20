@@ -10,4 +10,17 @@ Duplicates are allowed (unlike Sets)
 
 Backed by a binary heap (min-heap by default)
 
-⚠️ Important: Iterating a PriorityQueue with a for-each loop does NOT give sorted order — it gives heap-array order. To get sorted output, you must poll() repeatedly
+⚠️ Important: Iterating a PriorityQueue with a for-each loop does NOT give sorted order —
+it gives heap-array order. To get sorted output, you must poll() repeatedly
+
+========================================================
+Rule of thumb: Reach for PriorityQueue whenever you need to repeatedly extract the "best" element from a changing collection
+— best can mean smallest, largest, closest, most urgent, highest-ranked, etc. It's the tool for scheduling, dispatch, triage, and ranking problems.
+
+⚠️ Two things to remember:
+
+PriorityQueue is not thread-safe — use PriorityBlockingQueue in concurrent code.
+
+Iterating a PriorityQueue with for-each gives heap order, not sorted order — always poll() in a loop for sorted output.
+
+================================================================
