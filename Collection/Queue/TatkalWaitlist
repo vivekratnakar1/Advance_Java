@@ -1,0 +1,48 @@
+> Indian Railways Tatkal Waitlist with VIP Priority (Max-Heap)
+  > Waitlisted passengers are promoted based on priority score 
+    >  (senior citizens, women, differently-abled get higher priority)
+      > Only the top-priority passenger gets the next cancelled seat.
+
+import java.util.Collections;
+import java.util.PriorityQueue;
+
+public class TatkalWaitlist {
+    public static void main(String[] args) {
+        // Max-heap: highest priority number served first
+        PriorityQueue<Integer> waitlist = new PriorityQueue<>(Collections.reverseOrder());
+
+        // Priority score: 10 = senior citizen, 7 = women, 5 = general, 8 = differently-abled
+        waitlist.add(5);   // general — Rohit
+        waitlist.add(10);  // senior — Kamala
+        waitlist.add(7);   // woman — Nisha
+        waitlist.add(8);   // differently-abled — Suresh
+        waitlist.add(5);   // general — Anil
+        waitlist.add(10);  // senior — Mohan
+
+        System.out.println("Total on waitlist: " + waitlist.size());
+        System.out.println("Next to be confirmed: priority " + waitlist.peek());
+
+        System.out.println("\nConfirmation order (highest priority first):");
+        int seat = 1;
+        while (!waitlist.isEmpty()) {
+            int priority = waitlist.poll();
+            System.out.println("  Seat " + seat++ + " → priority " + priority);
+        }
+    }
+}
+
+----------------------------------------------
+o/p
+Total on waitlist: 6
+Next to be confirmed: priority 10
+
+Confirmation order (highest priority first):
+  Seat 1 → priority 10
+  Seat 2 → priority 10
+  Seat 3 → priority 8
+  Seat 4 → priority 7
+  Seat 5 → priority 5
+  Seat 6 → priority 5
+
+Why PriorityQueue? Duplicates (two priority-10 seniors) are allowed in PriorityQueue — unlike Sets.
+And a max-heap ensures the highest-priority passenger is served first, in O(log n) per promotion.
