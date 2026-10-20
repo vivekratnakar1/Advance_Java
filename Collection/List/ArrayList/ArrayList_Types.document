@@ -1,8 +1,4 @@
 
-
-AI Mode conversation: type of arrraylist
-
-
 type of arrraylist
 
 An ArrayList is a resizable, dynamic-array implementation of the List interface in Java (part of the java.util package). Instead of having "types" of ArrayLists themselves, an ArrayList can be declared to hold different types of elements using Java Generics.
@@ -30,3 +26,8 @@ Core Characteristics
 • Dynamic Sizing: Automatically grows and shrinks in capacity as elements are added or removed.
 • Ordered & Duplicates Allowed: Maintains the exact insertion order of elements and permits duplicate values.
 • Not Thread-Safe: If multiple threads access it concurrently, it must be synchronized externally using Collections.synchronizedList()
+
+
+LinkedList (Fast Insertions & Deletions)
+
+• Why use it: Under the hood, it links elements together like a chain. It works exactly like an ArrayList but is much faster when you frequently add or remove items from the middle or the beginning of the list.
