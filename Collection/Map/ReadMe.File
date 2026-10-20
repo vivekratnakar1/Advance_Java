@@ -1,0 +1,7 @@
+A Map stores data as key-value pairs. Keys are unique, but values can be duplicated.
+
+Common implementations:
+- HashMap — No guaranteed iteration order.
+- LinkedHashMap — Preserves insertion order by default.
+- TreeMap — Sorts entries by key.
+- Hashtable — Legacy synchronized map.
