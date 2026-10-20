@@ -1,0 +1,67 @@
+> An Indian coaching institute ranks students by marks descending
+    > then by name ascending for ties. This uses a custom Comparator.
+=======================================================================================================
+import java.util.Comparator;
+import java.util.TreeSet;
+
+class Student {
+    String name;
+    int marks;
+
+    Student(String name, int marks) {
+        this.name = name;
+        this.marks = marks;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + marks + ")";
+    }
+}
+
+public class JeeRankList {
+    public static void main(String[] args) {
+        // Custom comparator: sort by marks DESC, then name ASC for ties
+        Comparator<Student> rankComparator = (a, b) -> {
+            if (a.marks != b.marks) {
+                return Integer.compare(b.marks, a.marks);   // higher marks first
+            }
+            return a.name.compareTo(b.name);                // alphabetical tie-break
+        };
+
+        TreeSet<Student> rankList = new TreeSet<>(rankComparator);
+
+        rankList.add(new Student("Aarav",  292));
+        rankList.add(new Student("Diya",   305));
+        rankList.add(new Student("Rohan",  305));
+        rankList.add(new Student("Kavya",  288));
+        rankList.add(new Student("Ishaan", 292));
+
+        System.out.println("JEE Rank List (top first):");
+        int rank = 1;
+        for (Student s : rankList) {
+            System.out.println("  Rank " + rank++ + ": " + s);
+        }
+
+        System.out.println("\nTop ranker: " + rankList.first());
+        System.out.println("Lowest in list: " + rankList.last());
+    }
+}
+=======================================================================================================
+o/p
+JEE Rank List (top first):
+  Rank 1: Diya (305)
+  Rank 2: Rohan (305)
+  Rank 3: Aarav (292)
+  Rank 4: Ishaan (292)
+  Rank 5: Kavya (288)
+
+Top ranker: Diya (305)
+Lowest in list: Kavya (288)
+=======================================================================================================
+Why TreeSet? The comparator is honored on every insertion — 
+every element is inserted into the right position automatically. 
+With a List, you'd have to call Collections.sort() every time marks change.
+
+⚠️ Subtle gotcha: TreeSet uses the comparator to decide uniqueness. 
+If two students have the same marks and same name, the second would be rejected as a duplicate.
