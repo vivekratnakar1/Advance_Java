@@ -1,0 +1,61 @@
+>> Guava's RateLimiter (Token-Bucket Algorithm)
+  >> Guava's RateLimiter is a great choice for standalone Java applications.
+      >> It uses the Token Bucket algorithm, where permits are handed out smoothly over time.
+
+
+
+                                                                                    Maven Dependency_________________________
+                                                                                                <dependency>
+                                                                                            <groupId>com.google.guava</groupId>
+                                                                                            <artifactId>guava</artifactId>
+                                                                                            <version>33.3.1-jre</version> <!-- Use the latest version available -->
+                                                                                        </dependency>
+
+
+#Code Implementation________
+
+import com.google.common.util.concurrent.RateLimiter;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class GuavaThrottlingDemo {
+    public static void main(String[] args) {
+        // Permits exactly 2.0 requests per second (1 request every 500ms)
+        RateLimiter rateLimiter = RateLimiter.create(2.0);
+
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        Runnable task = new Runnable() {
+            private int requestCounter = 1;
+
+            @Override
+            public void run() {
+                while (requestCounter <= 6) {
+                    int id = requestCounter++;
+                    
+                    // acquire() blocks the thread until a permit becomes available
+                    double timeSpentWaiting = rateLimiter.acquire();
+                    
+                    System.out.printf("Request %d processed by %s after waiting %.2fs\n", 
+                        id, Thread.currentThread().getName(), timeSpentWaiting);
+                }
+            }
+        };
+
+        // Simulating highly concurrent requests
+        executor.submit(task);
+        executor.shutdown();
+    }
+}
+
+o/p
+====================================================================
+Request 1 processed by pool-1-thread-1 after waiting 0.00s
+Request 2 processed by pool-1-thread-1 after waiting 0.49s
+Request 3 processed by pool-1-thread-1 after waiting 0.50s
+Request 4 processed by pool-1-thread-1 after waiting 0.50s
+...
+
+
+
+
