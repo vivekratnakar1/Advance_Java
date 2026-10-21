@@ -34,3 +34,11 @@ public class ThrottlingDemo {
         }
     }
 }
+
+o/p-------------------------------------------------
+Starting Throttling POC (Max 1 Request/Second)...
+Request 1 processed at: 10s
+Request 2 processed at: 11s
+Request 3 processed at: 12s
+Request 4 processed at: 13s
+Request 5 processed at: 14s
