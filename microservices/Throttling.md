@@ -1,4 +1,4 @@
-
+> Java Throttling is a technique used to regulate the speed of operations or API requests to prevent system overload and maintain stability.___________
 
 public class ThrottlingDemo {
     // Minimum gap required between two requests (1000ms = 1 second)
