@@ -1,4 +1,4 @@
->> Guava's RateLimiter (Token-Bucket Algorithm)
+>> Guava's RateLimiter (Token-Bucket Algorithm)-
   >> Guava's RateLimiter is a great choice for standalone Java applications.
       >> It uses the Token Bucket algorithm, where permits are handed out smoothly over time.
 
