@@ -1,0 +1,66 @@
+#  Resilience4j RateLimiter (Spring Boot / Microservices)
+
+      >> Resilience4j is the industry standard for modern microservices
+          >> It is built on top of a Fixed Window algorithm and natively supports functional styles.
+
+                                                                            
+                                                                      Maven Dependency________________
+                                                                        <dependency>
+                                                                          <groupId>io.github.resilience4j</groupId>
+                                                                          <artifactId>resilience4j-ratelimiter</artifactId>
+                                                                          <version>2.2.0</version> <!-- Use the latest version available -->
+                                                                      </dependency>
+
+
+Code Implementation_____________________
+
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
+import java.time.Duration;
+import java.util.function.Runnable;
+
+public class Resilience4jDemo {
+    public static void main(String[] args) {
+        // Define throttling rules
+        RateLimiterConfig config = RateLimiterConfig.custom()
+            .limitRefreshPeriod(Duration.ofSeconds(1)) // Time window
+            .limitForPeriod(2)                         // Allow max 2 requests per window
+            .timeoutDuration(Duration.ofSeconds(3))    // Wait up to 3s in queue before failing
+            .build();
+
+        RateLimiterRegistry registry = RateLimiterRegistry.of(config);
+        RateLimiter limiter = registry.rateLimiter("myBackendService");
+
+        // The secure operational logic we want to protect
+        Runnable protectedResource = () -> System.out.println(
+            "Service executed successfully at: " + (System.currentTimeMillis() / 1000) % 60 + "s"
+        );
+
+        // Decorate our logic with the RateLimiter wrapper
+        Runnable decorated = RateLimiter.decorateRunnable(limiter, protectedResource);
+
+        System.out.println("Bombarding service with 5 rapid requests...");
+        for (int i = 0; i < 5; i++) {
+            try {
+                decorated.run(); 
+            } catch (Exception e) {
+                // If the queue times out, it throws a RequestNotPermitted exception
+                System.err.println("Request blocked: " + e.getMessage());
+            }
+        }
+    }
+}
+
+o/p_____________________________________________________ :: Because we defined a limit of 2 requests per second, the first 2 execute instantly. 
+                                                         :: The next 2 are placed into a queue, pause, and execute exactly 1 second later when the window refreshes.
+
+Bombarding service with 5 rapid requests...
+
+Service executed successfully at: 20s
+Service executed successfully at: 20s
+Service executed successfully at: 21s
+Service executed successfully at: 21s
+Service executed successfully at: 22s
+
+
