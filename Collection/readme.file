@@ -1,37 +1,49 @@
-                                          Iterable (Interface)   //Iterable is the parent interface of Collection.
+                                                    
+                                                    🗺️ Framework Hierarchy
+                                                    
+                                                    mermaid
+                                                    graph TD
+                                                        Collection --> List
+                                                        Collection --> Set
+                                                        Collection --> Queue
+                                                        
+                                                        List --> ArrayList
+                                                        List --> LinkedList
+                                                        List --> Vector
+                                                        
+                                                        Set --> HashSet
+                                                        Set --> LinkedHashSet
+                                                        Set --> SortedSet
+                                                        SortedSet --> TreeSet
+                                                        
+                                                        Queue --> PriorityQueue
+                                                        Queue --> Deque
+                                                        Deque --> ArrayDeque
+                                                        Deque --> LinkedList
+                                                        
+                                                        Map --> HashMap
+                                                        Map --> LinkedHashMap
+                                                        Map --> Hashtable
+                                                        Map --> SortedMap
+                                                        SortedMap --> TreeMap
 
-                                        Collection (Interface)                      Map (Separate Interface)
-
-                List                    Set                            Queue
-               ArrayList            HashSet                        PriorityQueue                     HashMap                  LinkedHashMap
-
-              LinkedList            LinkedHashSet                  ArrayDeque                        TreeMap                    Hashtable
-                                                
-               Vector                TreeSet                          LinkedList
-                                                
-               Stack
 
 
-                                    
-                                    - ArrayList — Dynamic array; a good default choice for most list operations.
-                                    - LinkedList — Doubly linked list; also supports queue and deque operations.
-                                    - Vector — Legacy synchronized list.
-                                    - Stack — Legacy LIFO stack implementation.
+                                              ⚡ The Big-O Cheat Sheet
+                                              
+                                              Choosing the wrong collection can ruin your application's performance. Use this quick lookup table to select the right tool for the job.
+                                              
+                                              Interface	Implementation	Access (Get)	Insertion	Deletion	Ordering / Features
+                                              List	ArrayList	🟢 O(1)	🟡 O(n)	🟡 O(n)	Insertion order, index-based access.
+                                              List	LinkedList	🟡 O(n)	🟢 O(1)	🟢 O(1)	Doubly-linked list, fast sequential inserts.
+                                              Set	HashSet	🟢 O(1)	🟢 O(1)	🟢 O(1)	No duplicates, chaotic order.
+                                              Set	LinkedHashSet	🟢 O(1)	🟢 O(1)	🟢 O(1)	No duplicates, maintains insertion order.
+                                              Set	TreeSet	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	Sorted naturally or via Comparator.
+                                              Queue	PriorityQueue	🔴 N/A	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	Min-Heap / Max-Heap behavior.
+                                              Map	HashMap	🟢 O(1)	🟢 O(1)	🟢 O(1)	Key-value pairs, fast lookups.
+                                              Map	TreeMap	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	Sorted by keys.
 
 
-                Interview ke liye hierarchy ke important points
-                Interface / Class	Key point
-                Iterable	Enhanced for loop support
-                Collection	List, Set, Queue ka parent interface
-                List	Ordered, duplicates allowed
-                Set	Unique elements
-                Queue	Processing elements
-                Deque	Dono ends se insertion/removal
-                ArrayList	Dynamic array
-                LinkedList	List aur Deque implement karta hai
-                HashSet	Hash-based unique elements
-                TreeSet	Sorted unique elements
-                HashMap	Hash-based key-value storage
-                Comparable / Comparator	Object sorting ke liye
-                Yaad rakho: Vector ek legacy synchronized list hai aur Stack, Vector ko extend karta hai. 
-                Modern code mein stack operations ke liye aksar ArrayDeque prefer kiya jata hai.
+
+
+
