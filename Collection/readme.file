@@ -27,23 +27,8 @@
                                                         Map --> SortedMap
                                                         SortedMap --> TreeMap
 
-
-
-                                              ⚡ The Big-O Cheat Sheet
-                                              
-                                              Choosing the wrong collection can ruin your application's performance. Use this quick lookup table to select the right tool for the job.
-                                              
-                                              Interface	Implementation	Access (Get)	Insertion	Deletion	Ordering / Features
-                                              List	ArrayList	🟢 O(1)	🟡 O(n)	🟡 O(n)	Insertion order, index-based access.
-                                              List	LinkedList	🟡 O(n)	🟢 O(1)	🟢 O(1)	Doubly-linked list, fast sequential inserts.
-                                              Set	HashSet	🟢 O(1)	🟢 O(1)	🟢 O(1)	No duplicates, chaotic order.
-                                              Set	LinkedHashSet	🟢 O(1)	🟢 O(1)	🟢 O(1)	No duplicates, maintains insertion order.
-                                              Set	TreeSet	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	Sorted naturally or via Comparator.
-                                              Queue	PriorityQueue	🔴 N/A	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	Min-Heap / Max-Heap behavior.
-                                              Map	HashMap	🟢 O(1)	🟢 O(1)	🟢 O(1)	Key-value pairs, fast lookups.
-                                              Map	TreeMap	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	🟡 \(O(\log n)\)	Sorted by keys.
-
-
+    
+      
 
 
 
