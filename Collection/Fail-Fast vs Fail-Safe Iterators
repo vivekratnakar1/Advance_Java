@@ -1,0 +1,28 @@
+# Fail-Fast vs Fail-Safe Iterators in Java
+
+A quick reference guide comparing the core behavioral differences between **Fail-Fast** and **Fail-Safe** iterators in Java collections.
+
+---
+
+## Quick Summary
+
+| Feature | Fail-Fast Iterators (`HashMap`) | Fail-Safe Iterators (`ConcurrentHashMap`) |
+| :--- | :--- | :--- |
+| **Exception Throws** | Throws `ConcurrentModificationException` instantly if modified. | Never throws `ConcurrentModificationException`. |
+| **Data Copy** | Operates directly on the original collection. | Operates on a clone or a weakly consistent view. |
+| **Memory Overhead** | Extremely low memory overhead. | Higher memory overhead due to tracking views/clones. |
+| **Use Case** | Single-threaded applications. | Concurrent / Multi-threaded applications. |
+
+---
+
+## Detailed Breakdown
+
+### 1. Fail-Fast Iterators
+* **Behavior:** These iterators immediately abort operation and throw an exception if the underlying collection is structurally modified (added, updated, or deleted) after the iterator is created.
+* **Mechanism:** They look at an internal modification counter (`modCount`). If a change is detected during traversal, they flag it instantly.
+* **Examples:** `HashMap`, `ArrayList`, `HashSet`, `Vector`.
+
+### 2. Fail-Safe / Weakly Consistent Iterators
+* **Behavior:** These iterators allow the collection to be structurally modified during traversal without interrupting the process.
+* **Mechanism:** They avoid conflicting with ongoing operations by iterating over a separate snapshot copy or using a weakly consistent view of the dataset.
+* **Examples:** `ConcurrentHashMap`, `CopyOnWriteArrayList`.
