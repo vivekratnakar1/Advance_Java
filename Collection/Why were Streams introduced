@@ -1,0 +1,101 @@
+## Streams were introduced in Java 8 to provide a declarative, functional, and composable approach to processing sequences of data
+    ## Before Streams, developers had to rely on imperative loops (for or while) and temporary collections to filter, transform, or
+        ## aggregate data. This often resulted in verbose, boilerplate-heavy code that was difficult to read, maintain, and parallelise
+
+## Core Reasons for Introducing Streams
+__ 
+Core Reasons for Introducing Streams
+
+1. Declarative vs. Imperative Processing: Instead of writing how to do something (loops, index tracking, conditions), 
+      Streams allow you to express what you want to achieve (e.g., filter this, map that).
+
+2. Readability & Boilerplate Reduction: Complex data manipulation pipelines can be written in just a few lines of clean, readable code.
+
+3. Lazy Evaluation: Intermediate operations (like filter or map) are not executed immediately. 
+      They are optimized and combined into a single-pass execution pipeline that only triggers when a terminal operation
+          (like collect or forEach) is invoked. As pointed out by a consensus of users on Stack Overflow, this real-time pipelining allows
+                individual items to move through a chain of functions sequentially without waiting for the entire collection to finish previous stages.
+
+
+4. No Structural Modifications: Streams process data from a source (like a List) 
+        without altering the original data structure, preventing accidental side effects.
+
+5. Effortless Parallelism: You can easily leverage multi-core processors by switching from .
+      stream() to .parallelStream(), avoiding complex manual thread management.
++===============================================================================================================+
+
+    File: InsufficientBalanceException.java___
+                                      public class InsufficientBalanceException extends Exception {
+                                      
+                                          public InsufficientBalanceException(String message) {
+                                              super(message);
+                                          }
+                                      }
+      Create a BankService class___
+                                    public class BankService {
+                                    
+                                        public void withdraw(double balance, double amount)
+                                                throws InsufficientBalanceException {
+                                    
+                                            if (amount > balance) {
+                                                throw new InsufficientBalanceException(
+                                                    "Insufficient balance! Your balance is: " + balance
+                                                );
+                                            }
+                                    
+                                            System.out.println("Withdrawal successful!");
+                                        }
+                                    }
+
+
+                             
+                            Consider a scenario where you have a list of employee names. 
+                                    The goal is to find names that start with the letter "A", convert them to uppercase, and save them into a new list.
+                            
+                            1. The Old Way (Before Java 8 - Imperative)
+                            
+                            This approach requires manual iteration, a temporary list, and conditional statements.
+                            java
+                            import java.util.ArrayList;
+                            import java.util.Arrays;
+                            import java.util.List;
+                            
+                            public class ImperativeExample {
+                                public static void main(String[] args) {
+                                    List<String> employees = Arrays.asList("Alice", "Bob", "Alex", "Charlie", "Amanda");
+                                    
+                                    // Boilerplate: Temporary list required
+                                    List<String> result = new ArrayList<>();
+                                    
+                                    // Imperative loop specifying "how" to process
+                                    for (String name : employees) {
+                                        if (name.startsWith("A")) {
+                                            result.add(name.toUpperCase());
+                                        }
+                                    }
+                                    
+                                    System.out.println(result); // Output: [ALICE, ALEX, AMANDA]
+                                }
+                            }
+
+
+                    ##    Create the Main class___________
+                                  public class Main {
+                                  
+                                      public static void main(String[] args) {
+                                  
+                                          BankService bank = new BankService();
+                                  
+                                          try {
+                                              bank.withdraw(5000, 10000);
+                                          }
+                                          catch (InsufficientBalanceException e) {
+                                              System.out.println(e.getMessage());
+                                          }
+                                      }
+                                  }
+
+
+                        Output:___________
+                        Insufficient balance! Your balance is: 5000.0
+                              
