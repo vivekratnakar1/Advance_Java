@@ -1,0 +1,12 @@
+## ConcurrentHashMap is a thread-safe implementation of the Map interface.
+It allows multiple threads to access and update the map safely.
+
+                                  ConcurrentHashMap<Integer, String> map =
+                                          new ConcurrentHashMap<>();
+                                  
+                                  map.put(1, "Vivek");
+                                  map.put(2, "Rahul");
+                                  map.put(3, "Amit");
+                                  
+                                  System.out.println(map);
+
