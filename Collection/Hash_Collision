@@ -1,0 +1,48 @@
+        
+        
+        import java.util.HashMap;
+        
+        public class HashMapPOC {
+            // Custom class with forced hash collision
+            static class BadHashKey {
+                private final int id;
+        
+                public BadHashKey(int id) {
+                    this.id = id;
+                }
+        
+                @Override
+                public int hashCode() {
+                    // Hashing collision dynamically achieve karne ke liye standard fixed value return kar rahe hain
+                    return 1; 
+                }
+        
+                @Override
+                public boolean equals(Object obj) {
+                    if (this == obj) return true;
+                    if (obj == null || getClass() != obj.getClass()) return false;
+                    BadHashKey other = (BadHashKey) obj;
+                    return this.id == other.id;
+                }
+            }
+        
+            public static void main(String[] args) {
+                HashMap<BadHashKey, String> map = new HashMap<>();
+        
+                System.out.println("--- Inserting 10 elements with same hashCode ---");
+                
+                for (int i = 1; i <= 10; i++) {
+                    map.put(new BadHashKey(i), "Value-" + i);
+                    
+                    // Java source code implementation internals ke mutabik:
+                    // Jab elements ek bucket me 8 ya usse jyada hone lagenge:
+                    // Agar internal table capacity < 64 hai -> Table resize hogi (double size)
+                    // Agar internal table capacity >= 64 hai -> Linked List structure balanced Red-Black Tree ban jayega.
+                    System.out.println("Inserted element " + i + " into the same bin.");
+                }
+                
+                System.out.println("\nResult: Java internally treeify karne ke liye 8 entries threshold checks " +
+                                   "aur min 64 capacity requirement use karta hai.");
+            }
+        }
+          
